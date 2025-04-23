@@ -53,8 +53,8 @@ const Login = () => {
   
   // Demo login credentials
   const demoCredentials = [
-    { email: 'john@example.com', role: 'donor' },
-    { email: 'sarah@example.com', role: 'volunteer' },
+    { email: 'emma.wilson@example.com', role: 'donor' },
+    { email: 'david.park@example.com', role: 'volunteer' },
   ];
   
   const handleDemoLogin = async (email: string) => {
@@ -84,17 +84,17 @@ const Login = () => {
     <MainLayout>
       <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
         <div className="w-full max-w-md">
-          <Card>
+          <Card className="border-gray-200 dark:border-gray-800 shadow-lg">
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-bold text-center">Log in</CardTitle>
-              <CardDescription className="text-center">
+              <CardTitle className="text-2xl font-bold text-center text-gray-900 dark:text-white">Log in</CardTitle>
+              <CardDescription className="text-center text-gray-600 dark:text-gray-400">
                 Enter your email and password to access your account
               </CardDescription>
             </CardHeader>
             
             <CardContent>
               {error && (
-                <Alert variant="destructive" className="mb-4">
+                <Alert variant="destructive" className="mb-4 border border-red-200 bg-red-50 dark:bg-red-900/10">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
@@ -102,7 +102,7 @@ const Login = () => {
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-gray-900 dark:text-gray-100">Email</Label>
                   <Input
                     id="email"
                     type="email"
@@ -110,15 +110,16 @@ const Login = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   />
                 </div>
                 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password" className="text-gray-900 dark:text-gray-100">Password</Label>
                     <Link 
                       to="/forgot-password" 
-                      className="text-sm text-primary-green hover:underline"
+                      className="text-sm text-primary-green hover:text-primary-green/90 font-medium"
                     >
                       Forgot password?
                     </Link>
@@ -131,7 +132,7 @@ const Login = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="pr-10"
+                      className="pr-10 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     />
                     <Button
                       type="button"
@@ -141,9 +142,9 @@ const Login = () => {
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-gray-400" />
+                        <EyeOff className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                       ) : (
-                        <Eye className="h-4 w-4 text-gray-400" />
+                        <Eye className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                       )}
                     </Button>
                   </div>
@@ -151,7 +152,7 @@ const Login = () => {
                 
                 <Button 
                   type="submit" 
-                  className="w-full bg-primary-green hover:bg-primary-green/90"
+                  className="w-full bg-primary-green hover:bg-primary-green/90 text-white font-medium"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Signing in...' : 'Sign in'}
@@ -161,10 +162,10 @@ const Login = () => {
               <div className="mt-6">
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200/20"></div>
+                    <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-card text-gray-400">Or try a demo account</span>
+                    <span className="px-2 bg-white dark:bg-card text-gray-600 dark:text-gray-400">Or try a demo account</span>
                   </div>
                 </div>
                 
@@ -174,7 +175,7 @@ const Login = () => {
                       key={cred.email}
                       variant="outline"
                       onClick={() => handleDemoLogin(cred.email)}
-                      className="text-sm border-gray-200/20 hover:bg-primary-green/10 hover:text-white transition-colors"
+                      className="text-sm border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-primary-green dark:hover:text-primary-green transition-colors"
                     >
                       Login as {cred.role} ({cred.email})
                     </Button>
@@ -184,11 +185,11 @@ const Login = () => {
             </CardContent>
             
             <CardFooter className="flex justify-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Don't have an account?{' '}
                 <Link 
                   to="/register" 
-                  className="text-primary-green hover:underline font-medium"
+                  className="text-primary-green hover:text-primary-green/90 font-medium"
                 >
                   Sign up
                 </Link>

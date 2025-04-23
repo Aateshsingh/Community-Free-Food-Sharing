@@ -1,11 +1,47 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Mail, MapPin, Phone, Heart, Utensils } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Insert the email into the newsletter_subscribers table
+      const { error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{ email }]);
+
+      if (error) throw error;
+
+      toast.success('Thank you for subscribing to our newsletter!');
+      setEmail(''); // Clear the input
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      toast.error('Failed to subscribe. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <footer className="relative bg-gradient-to-b from-background to-gray-900/95 border-t border-white/10">
-      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:40px_40px]" />
+    <footer className="relative bg-gradient-to-b from-background to-gray-100 dark:to-gray-900/95 border-t border-gray-200 dark:border-white/10">
+      <div className="absolute inset-0 bg-grid-gray-900/[0.02] dark:bg-grid-white/[0.02] bg-[size:40px_40px]" />
       <div className="container mx-auto px-4 py-12 relative">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -24,7 +60,7 @@ const Footer = () => {
                 </span>
               </div>
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
               Join our mission to reduce food waste while supporting those in need. Together, we can make a difference in our community.
             </p>
             <div className="flex space-x-4">
@@ -42,28 +78,28 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/food" className="text-gray-400 hover:text-primary-green transition-colors duration-200 flex items-center">
+                <Link to="/food" className="text-gray-600 dark:text-gray-400 hover:text-primary-green transition-colors duration-200 flex items-center">
                   <span className="h-1 w-1 rounded-full bg-primary-green mr-2"></span>
                   Available Food
                 </Link>
               </li>
               <li>
-                <Link to="/donations" className="text-gray-400 hover:text-primary-green transition-colors duration-200 flex items-center">
+                <Link to="/donations" className="text-gray-600 dark:text-gray-400 hover:text-primary-green transition-colors duration-200 flex items-center">
                   <span className="h-1 w-1 rounded-full bg-primary-green mr-2"></span>
                   Donate Food
                 </Link>
               </li>
               <li>
-                <Link to="/tasks" className="text-gray-400 hover:text-primary-green transition-colors duration-200 flex items-center">
+                <Link to="/tasks" className="text-gray-600 dark:text-gray-400 hover:text-primary-green transition-colors duration-200 flex items-center">
                   <span className="h-1 w-1 rounded-full bg-primary-green mr-2"></span>
                   Volunteer Tasks
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-400 hover:text-primary-green transition-colors duration-200 flex items-center">
+                <Link to="/about" className="text-gray-600 dark:text-gray-400 hover:text-primary-green transition-colors duration-200 flex items-center">
                   <span className="h-1 w-1 rounded-full bg-primary-green mr-2"></span>
                   About Us
                 </Link>
@@ -73,17 +109,17 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6">Contact Us</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Contact Us</h3>
             <ul className="space-y-4">
-              <li className="flex items-center text-gray-400">
+              <li className="flex items-center text-gray-600 dark:text-gray-400">
                 <MapPin className="h-5 w-5 mr-3 text-primary-green" />
                 <span>123 Community St, City, State 12345</span>
               </li>
-              <li className="flex items-center text-gray-400">
+              <li className="flex items-center text-gray-600 dark:text-gray-400">
                 <Phone className="h-5 w-5 mr-3 text-primary-green" />
                 <span>9839660325</span>
               </li>
-              <li className="flex items-center text-gray-400">
+              <li className="flex items-center text-gray-600 dark:text-gray-400">
                 <Mail className="h-5 w-5 mr-3 text-primary-green" />
                 <span>contact@foodsharecircle.com</span>
               </li>
@@ -92,37 +128,44 @@ const Footer = () => {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6">Newsletter</h3>
-            <p className="text-gray-400 text-sm mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Newsletter</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
               Subscribe to our newsletter for updates on food sharing opportunities and community events.
             </p>
-            <div className="flex flex-col space-y-2">
+            <form onSubmit={handleSubscribe} className="flex flex-col space-y-2">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-green"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-gray-300 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-green"
+                required
               />
-              <Button className="bg-primary-green hover:bg-primary-green/90">
-                Subscribe
+              <Button 
+                type="submit" 
+                className="bg-primary-green hover:bg-primary-green/90"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Subscribing...' : 'Subscribe'}
               </Button>
-            </div>
+            </form>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-white/10">
+        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
               © {new Date().getFullYear()} FoodShareCircle. All rights reserved.
             </p>
             <div className="flex items-center space-x-6 text-sm">
-              <Link to="/privacy" className="text-gray-400 hover:text-primary-green transition-colors">
+              <Link to="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-primary-green transition-colors">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="text-gray-400 hover:text-primary-green transition-colors">
+              <Link to="/terms" className="text-gray-600 dark:text-gray-400 hover:text-primary-green transition-colors">
                 Terms of Service
               </Link>
-              <span className="text-gray-400 flex items-center">
+              <span className="text-gray-600 dark:text-gray-400 flex items-center">
                 Made with <Heart className="h-4 w-4 text-red-500 mx-1" /> for the community
               </span>
             </div>

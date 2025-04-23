@@ -85,11 +85,11 @@ const Navbar = () => {
 
           {/* Right Section */}
           <div className="flex items-center space-x-4">
+            {/* Theme Toggle - Always visible */}
+            <ThemeToggle />
+
             {user ? (
               <>
-                {/* Theme Toggle */}
-                <ThemeToggle />
-
                 {/* Notifications */}
                 <div className="relative">
                   <Button
@@ -143,10 +143,25 @@ const Navbar = () => {
               </>
             ) : (
               <div className="hidden md:flex space-x-2">
-                <Button variant="ghost" asChild className="hover:bg-primary-green/10">
+                <Button 
+                  variant="ghost" 
+                  asChild 
+                  className={`transition-colors ${
+                    location.pathname === '/login' 
+                      ? 'bg-primary-green text-white' 
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                  }`}
+                >
                   <Link to="/login">Log in</Link>
                 </Button>
-                <Button asChild className="bg-primary-green hover:bg-primary-green/90">
+                <Button 
+                  asChild 
+                  className={`transition-colors ${
+                    location.pathname === '/register' 
+                      ? 'bg-primary-green text-white' 
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                  }`}
+                >
                   <Link to="/register">Sign up</Link>
                 </Button>
               </div>
@@ -219,14 +234,22 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/login" 
-                    className="text-foreground hover:text-primary-green px-3 py-2 rounded-md"
+                    className={`px-3 py-2 rounded-md transition-colors ${
+                      location.pathname === '/login' 
+                        ? 'bg-primary-green text-white' 
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                    }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Log in
                   </Link>
                   <Link 
                     to="/register" 
-                    className="bg-primary-green text-white px-3 py-2 rounded-md hover:bg-primary-green/90"
+                    className={`px-3 py-2 rounded-md transition-colors ${
+                      location.pathname === '/register'
+                        ? 'bg-primary-green text-white'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                    }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Sign up

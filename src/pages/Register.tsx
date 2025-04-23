@@ -103,17 +103,17 @@ const Register = () => {
     <MainLayout>
       <div className="flex justify-center items-center py-8">
         <div className="w-full max-w-md">
-          <Card>
+          <Card className="border-gray-200 dark:border-gray-800 shadow-lg">
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
-              <CardDescription className="text-center">
+              <CardTitle className="text-2xl font-bold text-center text-gray-900 dark:text-white">Create an account</CardTitle>
+              <CardDescription className="text-center text-gray-600 dark:text-gray-400">
                 Join the community and start sharing food
               </CardDescription>
             </CardHeader>
             
             <CardContent>
               {(error || formError) && (
-                <Alert variant="destructive" className="mb-4">
+                <Alert variant="destructive" className="mb-4 border border-red-200 bg-red-50 dark:bg-red-900/10">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>{formError || error}</AlertDescription>
                 </Alert>
@@ -121,18 +121,19 @@ const Register = () => {
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
+                  <Label htmlFor="name" className="text-gray-900 dark:text-gray-100">Full Name</Label>
                   <Input
                     id="name"
                     placeholder="John Doe"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
+                    className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-gray-900 dark:text-gray-100">Email</Label>
                   <Input
                     id="email"
                     type="email"
@@ -140,11 +141,12 @@ const Register = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-gray-900 dark:text-gray-100">Password</Label>
                   <div className="relative">
                     <Input
                       id="password"
@@ -153,7 +155,7 @@ const Register = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="pr-10"
+                      className="pr-10 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     />
                     <Button
                       type="button"
@@ -163,16 +165,16 @@ const Register = () => {
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-gray-400" />
+                        <EyeOff className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                       ) : (
-                        <Eye className="h-4 w-4 text-gray-400" />
+                        <Eye className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                       )}
                     </Button>
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Label htmlFor="confirmPassword" className="text-gray-900 dark:text-gray-100">Confirm Password</Label>
                   <div className="relative">
                     <Input
                       id="confirmPassword"
@@ -181,7 +183,7 @@ const Register = () => {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       required
-                      className="pr-10"
+                      className="pr-10 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                     />
                     <Button
                       type="button"
@@ -191,16 +193,16 @@ const Register = () => {
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     >
                       {showConfirmPassword ? (
-                        <EyeOff className="h-4 w-4 text-gray-400" />
+                        <EyeOff className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                       ) : (
-                        <Eye className="h-4 w-4 text-gray-400" />
+                        <Eye className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                       )}
                     </Button>
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  <Label>I want to join as</Label>
+                  <Label className="text-gray-900 dark:text-gray-100">I want to join as</Label>
                   <RadioGroup 
                     value={role} 
                     onValueChange={(value) => setRole(value as UserRole)}
@@ -208,11 +210,11 @@ const Register = () => {
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="donor" id="donor" />
-                      <Label htmlFor="donor" className="cursor-pointer">Donor</Label>
+                      <Label htmlFor="donor" className="cursor-pointer text-gray-700 dark:text-gray-300">Donor</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="volunteer" id="volunteer" />
-                      <Label htmlFor="volunteer" className="cursor-pointer">Volunteer</Label>
+                      <Label htmlFor="volunteer" className="cursor-pointer text-gray-700 dark:text-gray-300">Volunteer</Label>
                     </div>
                   </RadioGroup>
                 </div>
@@ -223,18 +225,18 @@ const Register = () => {
                       id="terms" 
                       checked={agreedToTerms}
                       onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
-                      className="border-gray-400"
+                      className="border-gray-300 dark:border-gray-600"
                     />
                     <Label 
                       htmlFor="terms" 
-                      className="text-sm text-gray-500 cursor-pointer"
+                      className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer"
                     >
                       I agree to the{' '}
-                      <Link to="/terms" className="text-primary-green hover:underline">
+                      <Link to="/terms" className="text-primary-green hover:text-primary-green/90 font-medium">
                         Terms of Service
                       </Link>{' '}
                       and{' '}
-                      <Link to="/privacy" className="text-primary-green hover:underline">
+                      <Link to="/privacy" className="text-primary-green hover:text-primary-green/90 font-medium">
                         Privacy Policy
                       </Link>
                     </Label>
@@ -243,7 +245,7 @@ const Register = () => {
                 
                 <Button 
                   type="submit" 
-                  className="w-full bg-primary-green hover:bg-primary-green/90"
+                  className="w-full bg-primary-green hover:bg-primary-green/90 text-white font-medium"
                   disabled={isSubmitting || !agreedToTerms}
                 >
                   {isSubmitting ? 'Creating account...' : 'Create account'}
@@ -252,13 +254,13 @@ const Register = () => {
             </CardContent>
             
             <CardFooter className="flex justify-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Already have an account?{' '}
                 <Link 
                   to="/login" 
-                  className="text-primary-green hover:underline font-medium"
+                  className="text-primary-green hover:text-primary-green/90 font-medium"
                 >
-                  Sign in
+                  Log in
                 </Link>
               </p>
             </CardFooter>

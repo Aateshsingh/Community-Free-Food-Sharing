@@ -29,24 +29,30 @@ const Index = () => {
           <img
             src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=2070"
             alt="Food sharing background"
-            className="w-full h-full object-cover brightness-50"
+            className="w-full h-full object-cover brightness-[0.3] dark:brightness-50"
           />
+          <div className="absolute inset-0 bg-black/40 dark:bg-black/60"></div>
         </div>
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto">
           <h1 className="text-5xl font-bold mb-6">
             Welcome to <span className="text-primary-green">FoodShare</span>
             <span className="text-secondary-orange">Circle</span>
           </h1>
-          <p className="text-xl mb-8 text-gray-200">
+          <p className="text-xl mb-8 text-gray-100 dark:text-gray-200">
             Join our community in reducing food waste while supporting those in need.
             Connect with local donors, volunteers, and beneficiaries.
           </p>
           {!user && (
             <div className="flex justify-center gap-4">
-              <Button size="lg" className="bg-primary-green hover:bg-primary-green/90" asChild>
+              <Button size="lg" className="bg-primary-green hover:bg-primary-green/90 text-white" asChild>
                 <Link to="/register">Get Started</Link>
               </Button>
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10" asChild>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="bg-white/10 hover:bg-white/20 text-white border-white/50 hover:border-white transition-colors" 
+                asChild
+              >
                 <Link to="/login">Sign In</Link>
               </Button>
             </div>
@@ -199,7 +205,7 @@ const Index = () => {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="font-semibold text-white border-white/20 hover:bg-white/10 transition-colors duration-300 group"
+                  className="font-semibold text-gray-900 dark:text-white border-gray-900/20 dark:border-white/20 hover:bg-gray-900/10 dark:hover:bg-white/10 transition-colors duration-300 group"
                   asChild
                 >
                   <Link to="/food" className="inline-flex items-center gap-2">
@@ -349,7 +355,7 @@ const Index = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              className="font-semibold text-white border-white/20 hover:bg-white/10 transition-colors duration-300 group"
+              className="font-semibold text-gray-900 dark:text-white border-gray-900/20 dark:border-white/20 hover:bg-gray-900/10 dark:hover:bg-white/10 transition-colors duration-300 group"
               asChild
             >
               <Link to="/register" className="inline-flex items-center gap-2">
