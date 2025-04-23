@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Welcome to your Community Free Food Sharing
+=======
+# Welcome to your our project
+>>>>>>> 4a70b1ba7d6bbcde473d19586b34ccd15e0c5b73
 
 ## Project info
 
@@ -50,3 +54,9 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 - Supabase (PostgreSQL)
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 4a70b1ba7d6bbcde473d19586b34ccd15e0c5b73
