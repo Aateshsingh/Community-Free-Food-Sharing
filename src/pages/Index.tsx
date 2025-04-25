@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import MainLayout from '@/components/MainLayout';
 import FoodCard from '@/components/FoodCard';
 import { useQuery } from '@tanstack/react-query';
-import { getFoodItems } from '@/services/supabaseService';
+import { getFoodItems, getRecentDonors, getActiveVolunteers } from '@/services/supabaseService';
 import EmptyState from '@/components/EmptyState';
 import { Package2, Gift, Heart, ArrowRight } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -17,6 +17,16 @@ const Index = () => {
   const { data: foodItems, isLoading } = useQuery({
     queryKey: ['recentFoodItems'],
     queryFn: getFoodItems
+  });
+  
+  const { data: recentDonors, isLoading: isLoadingDonors } = useQuery({
+    queryKey: ['recentDonors'],
+    queryFn: getRecentDonors
+  });
+
+  const { data: activeVolunteers, isLoading: isLoadingVolunteers } = useQuery({
+    queryKey: ['activeVolunteers'],
+    queryFn: getActiveVolunteers
   });
   
   const recentFoodItems = foodItems?.slice(0, 3) || [];
@@ -252,7 +262,7 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Donors Section */}
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <h3 className="text-2xl font-semibold text-white mb-6 flex items-center">
@@ -260,44 +270,39 @@ const Index = () => {
                 Recent Donors
               </h3>
               <div className="space-y-4">
-                {[
-                  {
-                    name: "Emma Wilson",
-                    role: "Local Restaurant Owner",
-                    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100",
-                    donations: 12
-                  },
-                  {
-                    name: "Michael Chen",
-                    role: "Grocery Store Manager",
-                    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100",
-                    donations: 8
-                  },
-                  {
-                    name: "Sarah Johnson",
-                    role: "Community Baker",
-                    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100",
-                    donations: 15
-                  }
-                ].map((donor, index) => (
-                  <div 
-                    key={donor.name}
-                    className="flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-colors group"
-                  >
-                    <Avatar className="h-12 w-12 border-2 border-primary-green/20 group-hover:border-primary-green transition-colors">
-                      <AvatarImage src={donor.image} alt={donor.name} />
-                      <AvatarFallback>{donor.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <h4 className="text-white font-medium">{donor.name}</h4>
-                      <p className="text-sm text-gray-400">{donor.role}</p>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-primary-green font-semibold">{donor.donations}</span>
-                      <p className="text-xs text-gray-400">donations</p>
-                    </div>
+                {isLoadingDonors ? (
+                  <div className="animate-pulse space-y-4">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="flex items-center space-x-4">
+                        <div className="h-12 w-12 bg-gray-700 rounded-full" />
+                        <div className="flex-1">
+                          <div className="h-4 bg-gray-700 rounded w-3/4" />
+                          <div className="h-3 bg-gray-700 rounded w-1/2 mt-2" />
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                ) : (
+                  recentDonors?.slice(0, 3).map(donor => (
+                    <div 
+                      key={donor.id}
+                      className="flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-colors group"
+                    >
+                      <Avatar className="h-12 w-12 border-2 border-primary-green/20 group-hover:border-primary-green transition-colors">
+                        <AvatarImage src={donor.image_url} alt={donor.name} />
+                        <AvatarFallback>{donor.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <h4 className="text-white font-medium">{donor.name}</h4>
+                        <p className="text-sm text-gray-400">{donor.occupation}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-primary-green font-semibold">{donor.donation_count}</span>
+                        <p className="text-xs text-gray-400">donations</p>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 
@@ -308,44 +313,39 @@ const Index = () => {
                 Active Volunteers
               </h3>
               <div className="space-y-4">
-                {[
-                  {
-                    name: "David Park",
-                    role: "Delivery Volunteer",
-                    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=100",
-                    tasks: 20
-                  },
-                  {
-                    name: "Lisa Martinez",
-                    role: "Food Sorting Lead",
-                    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100",
-                    tasks: 25
-                  },
-                  {
-                    name: "James Wilson",
-                    role: "Community Coordinator",
-                    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100",
-                    tasks: 18
-                  }
-                ].map((volunteer, index) => (
-                  <div 
-                    key={volunteer.name}
-                    className="flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-colors group"
-                  >
-                    <Avatar className="h-12 w-12 border-2 border-secondary-orange/20 group-hover:border-secondary-orange transition-colors">
-                      <AvatarImage src={volunteer.image} alt={volunteer.name} />
-                      <AvatarFallback>{volunteer.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <h4 className="text-white font-medium">{volunteer.name}</h4>
-                      <p className="text-sm text-gray-400">{volunteer.role}</p>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-secondary-orange font-semibold">{volunteer.tasks}</span>
-                      <p className="text-xs text-gray-400">tasks</p>
-                    </div>
+                {isLoadingVolunteers ? (
+                  <div className="animate-pulse space-y-4">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="flex items-center space-x-4">
+                        <div className="h-12 w-12 bg-gray-700 rounded-full" />
+                        <div className="flex-1">
+                          <div className="h-4 bg-gray-700 rounded w-3/4" />
+                          <div className="h-3 bg-gray-700 rounded w-1/2 mt-2" />
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                ) : (
+                  activeVolunteers?.slice(0, 3).map(volunteer => (
+                    <div 
+                      key={volunteer.id}
+                      className="flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-colors group"
+                    >
+                      <Avatar className="h-12 w-12 border-2 border-secondary-orange/20 group-hover:border-secondary-orange transition-colors">
+                        <AvatarImage src={volunteer.image_url} alt={volunteer.name} />
+                        <AvatarFallback>{volunteer.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <h4 className="text-white font-medium">{volunteer.name}</h4>
+                        <p className="text-sm text-gray-400">{volunteer.occupation}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-secondary-orange font-semibold">{volunteer.task_count}</span>
+                        <p className="text-xs text-gray-400">tasks</p>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>
